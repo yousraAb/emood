@@ -20,6 +20,7 @@ def Emood():
     f1.destroy()
     f2=Frame(w,width=1166,height=455,bg='#262626')
     f2.place(x=0,y=45)
+    
     l2=Label(f2,text='Emood',fg='white',bg='#262626')
     l2.config(font=('Comic Sans MS',90))
     l2.place(x=290,y=150-45)
@@ -114,6 +115,6 @@ b2=Button(w,image=img1,
        bg='#262626',
        activebackground='#262626')
 b2.place(x=5,y=8)
-
+ 
 
 w.mainloop()
