@@ -1,5 +1,11 @@
 from tkinter import *
 from PIL import ImageTk, Image
+from PIL import ImageTk, Image
+import pymysql
+from tkinter import ttk, messagebox
+import pymysql
+import os
+
 
 
 class LoginPage:
@@ -86,7 +92,7 @@ class LoginPage:
         self.lgn_button_label.image = photo
         self.lgn_button_label.place(x=550, y=450)
         self.login = Button(self.lgn_button_label, text='LOGIN', font=("yu gothic ui", 13, "bold"), width=25, bd=0,
-                            bg='#bdb9b1', cursor='hand2',  fg='white')
+                            bg='#bdb9b1', cursor='hand2',  fg='white',command=self.login_func)
         self.login.place(x=20, y=10)
         # ========================================================================
         # ============================Forgot password=============================
@@ -144,6 +150,39 @@ class LoginPage:
                                   , borderwidth=0, background="white", cursor="hand2")
         self.show_button.place(x=860, y=420)
         self.password_entry.config(show='*')
+    def login_func(self):
+         if self.username_entry.get()=="" or self.password_entry.get()=="":
+             messagebox.showerror("Error!","All fields are required",parent=self.window)
+         else:
+             try:
+                 connection=pymysql.connect(host="localhost",  user="root", password="",  database="emood")
+                 cur = connection.cursor()
+                 cur.execute("select * from user where login=%s and pass=%s",(self.username_entry.get(),self.password_entry.get()))
+                 row=cur.fetchone()
+                 if row == None:
+                     messagebox.showerror("Error!","Invalid USERNAME & PASSWORD",parent=self.window)
+                 else:
+                     messagebox.showinfo("Success","Wellcome to the PySeek family",parent=self.window)
+                     # Clear all the entries
+                     self.reset_fields()
+                     
+                     connection.close()
+
+             except Exception as e:
+                  messagebox.showerror("Error!",f"Error due to {str(e)}",parent=self.window)
+
+         
+    def redirect_window(self):
+                 self.window.destroy()
+                 # Importing the signup window.
+                 # The page must be in the same directory
+                 root = Tk()
+                 obj = SignUp(root)
+                 root.mainloop()
+         
+    def reset_fields(self):
+                 self.username_entry.delete(0,END)
+                 self.password_entry.delete(0,END)
 
 
 def page():

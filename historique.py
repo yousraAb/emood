@@ -1,132 +1,89 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 12 19:14:10 2022
+
+@author: user
+"""
+
+import tkinter as tk;
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk,Image
+root=tk.Tk()
+root.geometry('1000x500')
+"side menu"
+option_frame =tk.Frame(root,bg='#E1E1E1')
 
-w=Tk()
-w.geometry('1166x718')
-w.configure(bg='#262626')#E1E1E1')
-w.resizable(0,0)
-w.title('Toggle Menu')
+option_frame.pack(side=tk.LEFT)
 
-
-def default_Emood():
-    f2=Frame(w,width=1166,height=718,bg='white')
-    f2.place(x=0,y=45)
-    l2=Label(f2,text='Emood',fg='#50537A',bg='white')
-    l2.config(font=('Comic Sans MS',90))
-    l2.place(x=290,y=150-45)
- 
-                      
-def Emood():
-    f1.destroy()
-    f2=Frame(w,width=1166,height=455,bg='#262626')
-    f2.place(x=0,y=45)
-    l2=Label(f2,text='Emood',fg='white',bg='#262626')
-    l2.config(font=('Comic Sans MS',90))
-    l2.place(x=290,y=150-45)
-    toggle_win()
- 
-
-def Dashbord():
-    f1.destroy()
-    f2=Frame(w,width=1166,height=455,bg='white')
-    f2.place(x=0,y=45)
-    l2=Label(f2,text='Dashbord',fg='black',bg='white')
-    l2.config(font=('Comic Sans MS',90))
-    l2.place(x=290,y=150-45)
-    toggle_win()
-   
+"cette option  de pack propagate nous permet de resize notre frame "
+option_frame.pack_propagate(False)
+option_frame.configure(width=120,height=1000) 
+"main page"
+main_frame=tk.Frame(root,highlightbackground='black',
+                    highlightthickness=2)
+main_frame.pack(side=tk.LEFT)
+main_frame.pack_propagate(False)
+main_frame.configure(height=1000,width=1000)
+'functions of button'
+def hiddpage():
+   for frame in main_frame.winfo_children():
+        frame.destroy()
     
 
 def Historique():
-    f1.destroy()
-    f2=Frame(w,width=1166,height=718,bg='white')
-    f2.place(x=210,y=230-45); 
-    
-    listdata=[('id','emotion','description'),
-             (1,'happy','course computer science'),
-                (2,'sad','course in math'),
-                (3,'upset','TP'),
-                (4,'ANGRY','FIRST DAY School')];
-    totalrow=len(listdata);
-    totalcolum=len(listdata[0]); 
-    toggle_win()
-   
-    for i in range(totalrow):
-      for j in range(totalcolum):  
-         e=Entry(f2, width=28,fg='blue',font=('Arial',15,'bold'))
-         e.grid(row=i,column=j)
-         e.insert(END,listdata[i][j])
+    hiddpage()
+    f2=Frame(main_frame,width=1000,height=1000,bg='white')
+    f2.place(x=250,y=145); 
+    my_game = ttk.Treeview(f2)
+    my_game['columns'] = ('student_emotion', 'emotion description')
+    my_game.column("#0", width=0,  stretch=NO)
+    my_game.column("student_emotion",anchor=CENTER)
+    my_game.column("emotion description",anchor=CENTER)
+    my_game.heading("#0",text="",anchor=CENTER)
+    my_game.heading("student_emotion",text="student_emotion",anchor=CENTER)
+    my_game.heading("emotion description",text="emotion description",anchor=CENTER)
+    my_game.insert(parent='',index='end',iid=0,text='',
+      values=('1','Ninja'))
+    my_game.insert(parent='',index='end',iid=1,text='',
+      values=('2','Ranger'))
+    my_game.insert(parent='',index='end',iid=2,text='',
+      values=('3','Deamon'))
+    my_game.insert(parent='',index='end',iid=3,text='',
+      values=('4','Dragon'))
+    my_game.insert(parent='',index='end',iid=4,text='',
+      values=('5','CrissCross'))
+    my_game.insert(parent='',index='end',iid=5,text='',
+      values=('6','ZaqueriBlack'))
+    my_game.pack()
   
-
-
-def toggle_win():
-    global f1
-    f1=Frame(w,width=300,height=718,bg='#E1E1E1')
-    f1.place(x=0,y=0)
     
-    #buttons
-    def bttn(x,y,text,bcolor,fcolor,cmd):
-     
-        def on_entera(e):
-            myButton1['background'] = bcolor #ffcc66
-            myButton1['foreground']= '#262626'  #000d33
-
-        def on_leavea(e):
-            myButton1['background'] = fcolor
-            myButton1['foreground']= '#262626'
-
-        myButton1 = Button(f1,text=text,
-                       width=42,
-                       height=2,
-                       fg='#262626',
-                       border=0,
-                       bg=fcolor,
-                       activeforeground='#262626',
-                       activebackground=bcolor,            
-                        command=cmd)
-                      
-        myButton1.bind("<Enter>", on_entera)
-        myButton1.bind("<Leave>", on_leavea)
-
-        myButton1.place(x=x,y=y)
-
-    bttn(0,80,'E M O O D','#50537A','#E1E1E1',Emood)
-    bttn(0,117,'D A S H B O R D','#50537A','#E1E1E1',Dashbord)
-    bttn(0,154,'H I S T O R I Q U E','#50537A','#E1E1E1',Historique)
-
-    #
-    def dele():
-        f1.destroy()
-        b2=Button(w,image=img1,
-               command=toggle_win,
-               border=0,
-               bg='#262626',
-               activebackground='#262626')
-        b2.place(x=5,y=8)
-
-    global img2
-    img2 = ImageTk.PhotoImage(Image.open("close.png"))
-
-    Button(f1,
-           image=img2,
-           border=0,
-           command=dele,
-           bg='#E1E1E1',
-           activebackground='#E1E1E1').place(x=5,y=10)
+def Dashbord():
+    hiddpage()
+    f2=Frame(main_frame,width=900,height=1010,bg='white')
+    f2.place(x=0,y=0)
+    l2=Label(f2,text='Dashbord',fg='black',bg='white')
+    l2.config(font=('Comic Sans MS',90))
+    l2.place(x=290,y=150-45)
+def Emood():
+    hiddpage()
+    f2=Frame(main_frame,width=900,height=1010,bg='#262626')
+    f2.place(x=0,y=0)
+    l2=Label(f2,text='Emood',fg='white',bg='#262626')
+    l2.config(font=('Comic Sans MS',90))
+    l2.place(x=290,y=150-45)
+   
     
+'creation des oprion button'
+home_btn=tk.Button(option_frame,text='Home',font=('bold',15),
+                     fg='#262626',bd=0,bg='#E1E1E1',command=Emood)
+home_btn.place(x=10,y=50)
 
-default_Emood()
+historique_btn=tk.Button(option_frame,text='Historique',font=('bold',15),
+                     fg='#262626',bd=0,bg='#E1E1E1',command=Historique)
+historique_btn.place(x=10,y=100)
+dashbord_btn=tk.Button(option_frame,text='Dashboard',font=('bold',15),
+                     fg='#262626',bd=0,bg='#E1E1E1',command=Dashbord)
+dashbord_btn.place(x=10,y=150)
 
-img1 = ImageTk.PhotoImage(Image.open("open.png"))
-
-global b2
-b2=Button(w,image=img1,
-       command=toggle_win,
-       border=0,
-       bg='#262626',
-       activebackground='#262626')
-b2.place(x=5,y=8)
- 
-
-w.mainloop()
+root.mainloop()
