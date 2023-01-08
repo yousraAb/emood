@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
 """
+Created on Fri Jan  6 11:58:17 2023
+
+@author: user
+"""
+
+# -*- coding: utf-8 -*-
+"""
 Created on Mon Dec 12 19:14:10 2022
 
 @author: user
@@ -9,6 +16,7 @@ import tkinter as tk;
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk,Image
+import pymysql
 root=tk.Tk()
 root.geometry('1000x500')
 "side menu"
@@ -29,34 +37,76 @@ main_frame.configure(height=1000,width=1000)
 def hiddpage():
    for frame in main_frame.winfo_children():
         frame.destroy()
-    
-
-def Historique():
-    hiddpage()
-    f2=Frame(main_frame,width=1000,height=1000,bg='white')
-    f2.place(x=250,y=145); 
-    my_game = ttk.Treeview(f2)
-    my_game['columns'] = ('student_emotion', 'emotion description')
-    my_game.column("#0", width=0,  stretch=NO)
-    my_game.column("student_emotion",anchor=CENTER)
-    my_game.column("emotion description",anchor=CENTER)
-    my_game.heading("#0",text="",anchor=CENTER)
-    my_game.heading("student_emotion",text="student_emotion",anchor=CENTER)
-    my_game.heading("emotion description",text="emotion description",anchor=CENTER)
-    my_game.insert(parent='',index='end',iid=0,text='',
-      values=('1','Ninja'))
-    my_game.insert(parent='',index='end',iid=1,text='',
-      values=('2','Ranger'))
-    my_game.insert(parent='',index='end',iid=2,text='',
-      values=('3','Deamon'))
-    my_game.insert(parent='',index='end',iid=3,text='',
-      values=('4','Dragon'))
-    my_game.insert(parent='',index='end',iid=4,text='',
-      values=('5','CrissCross'))
-    my_game.insert(parent='',index='end',iid=5,text='',
-      values=('6','ZaqueriBlack'))
-    my_game.pack()
   
+def cnx(): 
+      
+        return cur
+           
+
+           
+def Historique():
+    'calling function to destroy the other content'
+    hiddpage()
+    'dividing the main frame to wrapper'
+    wrapper1=LabelFrame(main_frame,text="Emotion list")
+    wrapper2=LabelFrame(main_frame,text="Search");
+    wrapper2.pack(fill="both",expand="yes",padx=20,pady=7)
+    wrapper1.pack(fill="both",expand="yes",padx=20,pady=16)
+    'table creating usig treview'
+    trv=ttk.Treeview(wrapper1 ,height="6")
+    trv.pack()
+    'configurate the heading'
+    trv['columns'] = ('student_emotion', 'emotion description')
+    trv.column("#0", width=0,  stretch=NO)
+    trv.column("student_emotion",anchor=CENTER)
+    trv.column("emotion description",anchor=CENTER)
+    trv.heading("#0",text="",anchor=CENTER)
+    trv.heading("student_emotion",text="student_emotion",anchor=CENTER)
+    trv.heading("emotion description",text="emotion description",anchor=CENTER)
+    'connection to database'
+    connection=pymysql.connect(host="localhost",  user="root", password="",  database="emood")
+    cursor= connection.cursor()
+    'showing data using sql in table'
+    query='select student_emotion,emotion_description from emotion'
+    cursor.execute(query)
+    rows=cursor.fetchall()
+    'defing function inside historique to re-use it'
+    def update(rows):
+      trv.delete(*trv.get_children())
+      for i in rows:
+         trv.insert('','end',values=i)
+    'call function to update rows'
+    update(rows)
+    'search function and clear function'
+    def search ():
+      query='select student_emotion,emotion_description from emotion  where student_emotion =%s'
+      cursor.execute(query,(ent.get()))
+      rows=cursor.fetchall()
+      update(rows)
+     
+    def clear():
+        query='select student_emotion,emotion_description from emotion'
+        cursor.execute(query)
+        rows=cursor.fetchall()
+        update(rows)
+      
+      
+    'search section'
+    lbl=Label(wrapper2,text="search",font=('bold',15),
+                     fg='#262626',bd=0)
+    lbl.pack(side=tk.LEFT)
+    ent=Entry(wrapper2,textvariable=search)
+    ent.pack(padx=10,pady=10,side=tk.LEFT)
+    'search button'
+    search_btn=tk.Button(wrapper2,text='Search',font=('bold',15),
+                     fg='#262626',bd=0,bg='#E1E1E1',command=search)
+    search_btn.place(x=200,y=60)     
+    'clear button'
+    clear_btn=tk.Button(wrapper2,text='clear',font=('bold',15),
+                   fg='#262626',bd=0,bg='#E1E1E1',command=clear)
+    clear_btn.place(x=280,y=60)     
+  
+    
     
 def Dashbord():
     hiddpage()
@@ -74,7 +124,7 @@ def Emood():
     l2.place(x=290,y=150-45)
    
     
-'creation des oprion button'
+'creation des option button'
 home_btn=tk.Button(option_frame,text='Home',font=('bold',15),
                      fg='#262626',bd=0,bg='#E1E1E1',command=Emood)
 home_btn.place(x=10,y=50)
