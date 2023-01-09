@@ -17,6 +17,7 @@ from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk,Image
 import pymysql
+import dashbord as dashbord
 root=tk.Tk()
 root.geometry('1000x500')
 "side menu"
@@ -107,14 +108,14 @@ def Historique():
     clear_btn.place(x=280,y=60)     
   
     
-    
+
+ 
 def Dashbord():
     hiddpage()
-    f2=Frame(main_frame,width=900,height=1010,bg='white')
-    f2.place(x=0,y=0)
-    l2=Label(f2,text='Dashbord',fg='black',bg='white')
-    l2.config(font=('Comic Sans MS',90))
-    l2.place(x=290,y=150-45)
+    bouton_lancer = Button(main_frame,bg='#262626',  text='Lancer')
+    bouton_lancer.place(x = 400 , y = 260 , width = 200,height=100)
+    main_frame.bind('<Return>', dashbord.detection)
+    bouton_lancer.bind ("<Button-1>", dashbord.detection)
 def Emood():
     hiddpage()
     f2=Frame(main_frame,width=900,height=1010,bg='#262626')
