@@ -1,7 +1,7 @@
 import tkinter
 
 master=tkinter.Tk()
-master.title("place() method")
+# master.title("place() method")
 master.geometry("1166x718")
 master.configure(bg='gray')#E1E1E1')
 master.resizable(0,0)
