@@ -74,7 +74,7 @@ def Emood():
     l2=Label(f2,text='Emood',fg='white',bg='#262626')
     l2.config(font=('Comic Sans MS',90))
     l2.place(x=290,y=150-45)
-    
+   
 'creation des oprion button'
 home_btn=tk.Button(option_frame,text='Home',font=('bold',15),
                      fg='#262626',bd=0,bg='#E1E1E1',command=Emood)
@@ -88,8 +88,10 @@ dashbord_btn=tk.Button(option_frame,text='Dashboard',font=('bold',15),
                      fg='#262626',bd=0,bg='#E1E1E1',command=Dashbord)
 dashbord_btn.place(x=10,y=150)
 
-logout_btn=tk.Button(option_frame,text='Logout',font=('bold',15),
-                     fg='#262626',bd=0,bg='#E1E1E1',command=option_frame.destroy.pack)
+logout_btn=tk.Button(root,text='Logout',font=('bold',15),
+                     fg='#262626',bd=0,bg='#E1E1E1',command=quit)
 logout_btn.place(x=10,y=450)
+logout_btn.pack()
 
+    
 root.mainloop()
