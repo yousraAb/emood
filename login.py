@@ -7,7 +7,6 @@ import pymysql
 import os
 
 
-
 class LoginPage:
     def __init__(self, window):
         self.window = window
@@ -94,18 +93,7 @@ class LoginPage:
         self.login = Button(self.lgn_button_label, text='LOGIN', font=("yu gothic ui", 13, "bold"), width=25, bd=0,
                             bg='#bdb9b1', cursor='hand2',  fg='white',command=self.login_func)
         self.login.place(x=20, y=10)
-        # ========================================================================
-        # ============================Forgot password=============================
-        # ========================================================================
-        self.forgot_button = Button(self.lgn_frame, text="Forgot Password ?",
-                                    font=("yu gothic ui", 13, "bold underline"), fg="white", relief=FLAT,
-                                    activebackground="#fee6ed"
-                                    , borderwidth=0, background="#4f4e4d", cursor="hand2")
-        self.forgot_button.place(x=630, y=510)
-        # =========== Sign Up ==================================================
-       
-       
-
+  
         # ========================================================================
         # ============================password====================================
         # ========================================================================
@@ -161,12 +149,10 @@ class LoginPage:
                  row=cur.fetchone()
                  if row == None:
                      messagebox.showerror("Error!","Invalid USERNAME & PASSWORD",parent=self.window)
-                 else:
-                     messagebox.showinfo("Success","Wellcome to the PySeek family",parent=self.window)
-                     # Clear all the entries
-                     self.reset_fields()
                      
-                     connection.close()
+                 else:
+                    
+                     self.redirect_window()
 
              except Exception as e:
                   messagebox.showerror("Error!",f"Error due to {str(e)}",parent=self.window)
@@ -176,9 +162,9 @@ class LoginPage:
                  self.window.destroy()
                  # Importing the signup window.
                  # The page must be in the same directory
-                 root = Tk()
-                 obj = SignUp(root)
-                 root.mainloop()
+                 import menu
+                 
+                
          
     def reset_fields(self):
                  self.username_entry.delete(0,END)
