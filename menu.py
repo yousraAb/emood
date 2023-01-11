@@ -4,13 +4,15 @@ Created on Mon Dec 12 19:14:10 2022
 
 @author: user
 """
-
+import os
 import tkinter as tk;
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk,Image
 root=tk.Tk()
 root.geometry('1000x500')
+root.title("EMood")
+root.iconbitmap("logoEmood.ico")
 "side menu"
 option_frame =tk.Frame(root,bg='#E1E1E1')
 
@@ -72,13 +74,6 @@ def Emood():
     l2=Label(f2,text='Emood',fg='white',bg='#262626')
     l2.config(font=('Comic Sans MS',90))
     l2.place(x=290,y=150-45)
-def logout():
-    hiddpage()
-    f2=Frame(main_frame,width=900,height=1010,bg='#262626')
-    f2.place(x=0,y=0)
-    l2=Label(f2,text='Emood',fg='white',bg='#262626')
-    l2.config(font=('Comic Sans MS',90))
-    l2.place(x=290,y=150-45)   
     
 'creation des oprion button'
 home_btn=tk.Button(option_frame,text='Home',font=('bold',15),
@@ -94,7 +89,7 @@ dashbord_btn=tk.Button(option_frame,text='Dashboard',font=('bold',15),
 dashbord_btn.place(x=10,y=150)
 
 logout_btn=tk.Button(option_frame,text='Logout',font=('bold',15),
-                     fg='#262626',bd=0,bg='#E1E1E1',command=logout)
+                     fg='#262626',bd=0,bg='#E1E1E1',command=option_frame.destroy.pack)
 logout_btn.place(x=10,y=450)
 
 root.mainloop()
